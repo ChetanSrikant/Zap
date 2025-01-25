@@ -9,6 +9,7 @@ import ZapLogo from './pages/ZapLogo'
 import Home from './pages/Home'
 import UserProtectedWrapper from './pages/UserProtectedWrapper'
 import UserLogout from './pages/UserLogout'
+import CaptainHome from './pages/CaptainHome'
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path = "/user/logout" element={<UserProtectedWrapper>
           <UserLogout/>
         </UserProtectedWrapper>}/>
+        <Route path='/captain-home' element={<CaptainHome/>} />
       </Routes>
     </div>
   )

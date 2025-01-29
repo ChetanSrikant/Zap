@@ -3,15 +3,24 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import VehiclePanel from "../components/VehiclePanel";
+import ConfirmedRide from "../components/ConfirmedRide";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitingForDriver from "../components/WaitingForDriver";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [panelOpen, setPanelOpen] = useState(false);
   const vehiclePanelRef = useRef(null)
+  const confirmRidePanelRef = useRef(null)
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
+  const vehicleFoundRef = useRef(null);
+  const waitingForDriverRef = useRef(null);
   const [vehiclePanel, setVehiclePanel] = useState(false)
+  const [confirmRidePanel, setConfirmRidePanel] = useState(false)
+  const [vehicleFound, setVehicleFound] = useState(false)
+  const [waitingForDriver, setWaitingForDriver] = useState(false)
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -53,6 +62,45 @@ const Home = () => {
       })
     }
   },[vehiclePanel])
+
+  useGSAP(function(){
+    if (confirmRidePanel) {
+      gsap.to(confirmRidePanelRef.current,{
+        transform:'translateY(0)'
+      })
+    }else{
+      gsap.to(confirmRidePanelRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+  },[confirmRidePanel])
+
+
+  useGSAP(function(){
+    if (vehicleFound) {
+      gsap.to(vehicleFoundRef.current,{
+        transform:'translateY(0)'
+      })
+    }else{
+      gsap.to(vehicleFoundRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+  },[vehicleFound])
+
+
+  useGSAP(function(){
+    if (waitingForDriver) {
+      gsap.to(waitingForDriverRef.current,{
+        transform:'translateY(0)'
+      })
+    }else{
+      gsap.to(waitingForDriverRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+  },[waitingForDriver])
+
 
   return (
     <div className="h-screen relative overflow-hidden">
@@ -119,8 +167,19 @@ const Home = () => {
           <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel = {setVehiclePanel}></LocationSearchPanel>
         </div>
       </div>
-      <div ref={vehiclePanelRef} className="fixed w-full bg-white z-10 bottom-0 translate-y-full px-3 py-8">
-        <VehiclePanel setVehiclePanel={setVehiclePanel} />
+      <div ref={vehiclePanelRef} className="fixed w-full bg-white z-10 bottom-0 translate-y-full px-3 py-10 pt-14">
+        <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
+      </div>
+      <div ref={confirmRidePanelRef} className="fixed w-full bg-white z-10 bottom-0 translate-y-full px-3 py-6 pt-14">
+        <ConfirmedRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+      </div>
+
+      <div ref={vehicleFoundRef} className="fixed w-full bg-white z-10 bottom-0 translate-y-full px-3 py-6 pt-14">
+        <LookingForDriver/>
+      </div>
+
+      <div ref={waitingForDriverRef} className="fixed w-full bg-white z-10 bottom-0 px-3 py-6 pt-14">
+        <WaitingForDriver waitingForDriver={waitingForDriver}/>
       </div>
     </div>
   );

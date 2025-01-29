@@ -1,8 +1,43 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
+import RidePopUp from "../components/RidePopUp";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 
 const CaptainHome = () => {
+
+  const [ridePopPanel, setRidePopPanel] = useState(true)
+  const [confirmridePopPanel, setConfirmRidePopPanel] = useState(false)
+
+  const ridePopPanelRef = useRef(null)
+  const confirmridePopPanelRef = useRef(null)
+
+  useGSAP(function(){
+    if (ridePopPanel) {
+      gsap.to(ridePopPanelRef.current,{
+        transform:'translateY(0)'
+      })
+    }else{
+      gsap.to(ridePopPanelRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+  },[ridePopPanel])
+
+  useGSAP(function(){
+    if (confirmridePopPanel) {
+      gsap.to(confirmridePopPanelRef.current,{
+        transform:'translateY(0)'
+      })
+    }else{
+      gsap.to(confirmridePopPanelRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+  },[confirmridePopPanel])
+
   return (
     <div className="h-screen flex flex-col relative">
       {/* Home Icon Link - Ensure z-index is high enough */}
@@ -30,7 +65,18 @@ const CaptainHome = () => {
       </div>
 
       {/* Ride Details */}
-      <CaptainDetails/>
+
+      <div className="h-1/2 p-5 bg-white rounded-t-2xl shadow-lg ">
+        <CaptainDetails />
+      </div>
+
+      <div ref={ridePopPanelRef} className="fixed w-full bg-white z-10 bottom-0 translate-y-full px-3 py-6 pt-14">
+        <RidePopUp setRidePopPanel={setRidePopPanel} setConfirmRidePopPanel={setConfirmRidePopPanel}/>
+      </div>
+
+      <div ref={confirmridePopPanelRef} className="fixed w-full h-screen bg-white z-10 bottom-0 translate-y-full px-3 py-6 pt-14">
+        <ConfirmRidePopUp setConfirmRidePopPanel={setConfirmRidePopPanel} setRidePopPanel={setRidePopPanel}/>
+      </div>
     </div>
   );
 };

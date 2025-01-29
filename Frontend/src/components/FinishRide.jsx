@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
-const RidePopUp = (props) => {
+const FinishRide = (props) => {
   return (
     <div>
       <div
         onClick={() => {
-          props.setRidePopPanel(false);
+          props.setFinishRidePanel(false);
         }}
         className="p-3 flex justify-center w-[93%] absolute top-0 "
       >
@@ -27,7 +28,7 @@ const RidePopUp = (props) => {
         </svg>
       </div>
 
-      <h3 className="text-2xl font-semibold mb-5">New Ride Available!</h3>
+      <h3 className="text-2xl font-semibold mb-5">Finish this Ride</h3>
       <div className='flex items-center justify-between p-3 bg-yellow-200 rounded-lg'>
         <div className='flex items-center gap-3'>
             <img className='h-12 w-12 rounded-full object-cover' src="https://media.proprofs.com/images/QM/user_images/2503852/-Type-Of-Person-.webp" alt="" />
@@ -106,23 +107,20 @@ const RidePopUp = (props) => {
             </div>
           </div>
         </div>
-        <div className='w-full mt-5 flex items-center justify-between'>
 
-        <button 
-        onClick={()=> props.setRidePopPanel(false)}
-        className="bg-gray-300 text-gray-700 font-semibold p-3 px-10 rounded-lg">
-          Ignore
-        </button>
+       
 
-        <button 
-        onClick={()=>{props.setConfirmRidePopPanel(true)}}
-        className="bg-green-600 text-white font-semibold p-3 px-10 rounded-lg">
-          Accept
-        </button>        
+        <div className='mt-6 w-full'>
+        <Link to='/captain-home'
+        className="w-full mt-5 flex text-lg justify-center bg-green-600 text-white font-semibold p-3 rounded-lg">
+          Finish Ride
+        </Link> 
+
+        <p className=' mt-10 text-xs'>Click on finish ride button if you have completed the payment</p>      
         </div>
       </div>
     </div>
   )
 }
 
-export default RidePopUp
+export default FinishRide
